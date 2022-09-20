@@ -29,13 +29,14 @@ def build(bld):
 
 	libs = []
 
-	bld.stlib(
+	bld.shlib(
 		source   = source,
 		target   = PROJECT_NAME,
 		name     = PROJECT_NAME,
 		features = 'c cxx',
 		includes = includes,
 		defines  = defines,
+		install_path = bld.env.LIBDIR,
 		use      = libs,
 		subsystem = bld.env.MSVC_SUBSYSTEM,
 		idx      = bld.get_taskgen_count()
