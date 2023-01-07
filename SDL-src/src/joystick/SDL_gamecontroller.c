@@ -1786,6 +1786,19 @@ SDL_bool SDL_ShouldIgnoreGameController(const char *name, SDL_JoystickGUID guid)
     Uint16 version;
     Uint32 vidpid;
 
+    if (name)
+    {
+        if (SDL_strcmp(name, "uinput-fpc") == 0) {
+            /* The Google Pixel fingerprint sensor reports itself as a joystick */
+            return SDL_TRUE;
+        }
+
+        if (SDL_strcmp(name, "uinput-goodix") == 0) {
+            /* The xiamoi fingerprint sensor reports itself as a joystick */
+            return SDL_TRUE;
+        }
+    }
+
 #if defined(__LINUX__)
     if (name && SDL_strstr(name, "Motion Sensors")) {
         /* Don't treat the PS3 and PS4 motion controls as a separate game controller */
