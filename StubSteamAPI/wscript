@@ -31,7 +31,7 @@ def build(bld):
 	linkflags = []
 
 	if bld.env.DEST_OS == 'darwin':
-		linkflags += ['-install_name', '@loaderpath/lib'+PROJECT_NAME+'.dylib']
+		linkflags += ['-install_name', '@rpath/lib'+PROJECT_NAME+'.dylib']
 
 	bld.shlib(
 		source   = source,
