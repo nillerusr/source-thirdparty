@@ -28,6 +28,10 @@ def build(bld):
 	defines = []
 
 	libs = []
+	linkflags = []
+
+	if bld.env.DEST_OS == 'darwin':
+		linkflags += ['-install_name', '@loaderpath/lib'+PROJECT_NAME+'.dylib']
 
 	bld.shlib(
 		source   = source,
@@ -38,6 +42,7 @@ def build(bld):
 		defines  = defines,
 		install_path = bld.env.LIBDIR,
 		use      = libs,
+		linkflags = linkflags,
 		subsystem = bld.env.MSVC_SUBSYSTEM,
 		idx      = bld.get_taskgen_count()
 	)
