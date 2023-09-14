@@ -180,6 +180,31 @@ static int have_simd()
 {   /* TODO: detect neon for !MINIMP3_ONLY_SIMD */
     return 1;
 }
+#elif defined(__e2k__)
+#ifdef __SSE___
+#include <x86intrin.h>
+#define HAVE_SSE 1
+#define HAVE_SIMD 1
+#define VSTORE _mm_storeu_ps
+#define VLD _mm_loadu_ps
+#define VSET _mm_set1_ps
+#define VADD _mm_add_ps
+#define VSUB _mm_sub_ps
+#define VMUL _mm_mul_ps
+#define VMAC(a, x, y) _mm_add_ps(a, _mm_mul_ps(x, y))
+#define VMSB(a, x, y) _mm_sub_ps(a, _mm_mul_ps(x, y))
+#define VMUL_S(x, s)  _mm_mul_ps(x, _mm_set1_ps(s))
+#define VREV(x) _mm_shuffle_ps(x, x, _MM_SHUFFLE(0, 1, 2, 3))
+typedef __m128 f4;
+static int have_simd()
+{
+    return 1;
+}
+#else /* __SSE__ */
+#undef MINIMP3_ONLY_SIMD
+#define HAVE_SSE 0
+#define HAVE_SIMD 0
+#endif /* __SSE__ */
 #else /* SIMD checks... */
 #define HAVE_SSE 0
 #define HAVE_SIMD 0
